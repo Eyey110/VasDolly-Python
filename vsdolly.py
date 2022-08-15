@@ -2,6 +2,7 @@
 import os
 from struct import *
 from binary import BinaryStream
+import sys
 
 zip_eocd_rec_min_size = 22
 
@@ -21,14 +22,18 @@ target_value = "test"
 
 target_id = 0x881155ff
 
-apk_file_path = "app-release.apk"
+# apk_file_path = "app-release.apk"
 
-dest_apk_file = "dest_client.apk"
+# dest_apk_file = "dest_client.apk"
 
 
 
 if __name__ == '__main__':
-    # apk_file_path = sys.argv[1]
+    apk_file_path = sys.argv[1]
+    dest_apk_file = sys.argv[2]
+
+    print("%s ----->>>>> %s", apk_file_path, dest_apk_file)
+
     apk_file = open(apk_file_path, "rb+")
     apk_stream = BinaryStream(apk_file)
     apk_file_size = os.path.getsize(apk_file_path)
@@ -182,3 +187,5 @@ if __name__ == '__main__':
     apk_stream.seek(ecod_start_pos + 20)
     target_apk_stream.write_bytes(apk_stream.read_bytes(ecod_length - 20))
     target_apk_stream.close()
+
+    print("finish")
