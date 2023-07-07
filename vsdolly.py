@@ -55,14 +55,14 @@ if __name__ == '__main__':
     """
     max_comment_length = min(apk_file_size - zip_eocd_rec_min_size, uint16_max_value)
     print("max comment length is", max_comment_length)
-    i = 0
+    eocd_length = 22
     ecod_start_pos = apk_file_size - zip_eocd_rec_min_size
-    while i < max_comment_length:
-        apk_stream.seek(ecod_start_pos + i, 0)
+    while eocd_length < max_comment_length:
+        apk_stream.seek(ecod_start_pos - eocd_length, 0)
         if apk_stream.read_uint32() == zip_eocd_rec_sig:
             break
-        i = i + 1
-    ecod_start_pos = ecod_start_pos + i
+        i = eocd_length + 1
+    ecod_start_pos = ecod_start_pos + eocd_length
     print("ecod start position is", ecod_start_pos)
 
     apk_stream.seek(ecod_start_pos + zip_eocd_comment_length_offset, 0)
